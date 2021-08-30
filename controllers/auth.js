@@ -7,19 +7,18 @@ const ErrorResponse = require('../utils/errorResponse');
 
 //Register
 exports.register = async (req, res, next) => {
+    if (!req.body.email || !req.body.password || !req.body.name)
+        return next(new ErrorResponse('missing fields', 400))
     try {
         //Joi validate
         const { error } = registerValidation(req.body);
         if (error)
-            return next(new ErrorResponse(error.details[0].message))
-        
+            return next(new ErrorResponse(error.details[0].message),400)
+
         //check if email already exists
         const emailExist = await User.findOne({ email: req.body.email })
         if (emailExist)
-            return next(new ErrorResponse('Email already exists'))
-        // // //check if name already exists
-        // // const nameExist = await User.findOne({ name: req.body.name })
-        // // if (nameExist) return res.status(400).send('try different name')
+            return next(new ErrorResponse('Email already exists'),400)
         
         //hash pass
         const salt = await bcrypt.genSalt(10);
@@ -33,11 +32,11 @@ exports.register = async (req, res, next) => {
         })
         const user = await newUser.save();
         
-        const { password, ...others } = user._doc;
-        
+        // const { password, ...others } = user._doc;
+        console.log(user);
         res.status(201).json({
             success: true,
-            token: "bla bla"
+            successMessage: "registration success. please Log in"
         })
     } catch (error) {
         next(error)
@@ -71,7 +70,7 @@ exports.login = async (req, res, next) => {
 
         res.status(201).json({
             success: true,
-            token: "bla bla"
+            successMessage: "login success."
         })
         res.header('auth-token', token).send(token);
     } catch (err) {
@@ -83,6 +82,6 @@ exports.forgotPassword = async (req, res, next) => {
     res.send("forgotPassword route")
 }
 
-exports.resetPassword = async (req, res, next) => {
-    res.send("resetPassword route")
-}
+// // exports.resetPassword = async (req, res, next) => {
+// //     res.send("resetPassword route")
+// // }

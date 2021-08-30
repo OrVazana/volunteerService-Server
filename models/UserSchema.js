@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { resetPassword } = require('../controllers/auth')
 
 const userSchema = mongoose.Schema(
     {
@@ -23,17 +22,11 @@ const userSchema = mongoose.Schema(
             type: String,
             required: false
         },
-        type: {
-            type: String,
-            default: "user"
+        role: {
+            type: Number,
+            default: 0
         },
-        CreateDate: {
-            type: Date,
-            default:Date.now
-        },
-        resetPasswordToken: String,
-        resetPasswordExpire: Date,
-    }
+    },{timestamps:true}
 )
 
 module.exports = mongoose.model('user', userSchema)
