@@ -5,11 +5,15 @@ const postSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    author: {
+        type: String,
+        required:true
+    },
     description:{
         type: String,
         required: true
     },
-    date: {
+    CreateDate: {
         type: Date,
         default: Date.now
     },

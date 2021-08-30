@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router()
-const Post = require('../models/post')
+const Post = require('../models/PostSchema')
 
 //get all posts
 router.get('/', async (req, res) => {
@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
         res.json({ message: err })
     }
 })
+
 //create - submit a post
 router.post('/', async (req, res) => {
     console.log(req.body)
@@ -25,6 +26,7 @@ router.post('/', async (req, res) => {
         res.json({ message: err })
     }
 });
+
 //get specific post
 router.get('/:postID', async (req, res) => {
     try {
@@ -34,6 +36,7 @@ router.get('/:postID', async (req, res) => {
         res.json({ message: err })
     }
 })
+
 //delete specific post
 router.delete('/:postID', async (req, res) => {
     try {
@@ -43,6 +46,7 @@ router.delete('/:postID', async (req, res) => {
         res.json({ message: err })
     }
 })
+
 //update a post
 router.patch('/:postID', async (req, res) => {
     try {
@@ -54,5 +58,6 @@ router.patch('/:postID', async (req, res) => {
         res.json({ message: err })
     }
 })
+
 //export module
 module.exports = router
