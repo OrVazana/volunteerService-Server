@@ -3,7 +3,7 @@ const ErrorResponse = require('../utils/errorResponse');
 
 function verify(req, res, next) {
     const authHeader = req.headers.token;
-    if (authHeader) {
+    if (authHeader && authHeader.startWith("Bearer")) {
         const token = authHeader.split(" ")[1]
 
         jwt.verify(token, process.env.SECRET, (err, user) => {
