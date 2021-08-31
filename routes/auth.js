@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { registerValidation, loginValidation } = require("../utils/validation")
 const ErrorResponse = require('../utils/errorResponse');
-
+const crypto = require('crypto');
 
 const { register, login, forgotPassword } = require('../controllers/auth')
 
@@ -89,8 +89,16 @@ router.post('/login',async (req, res, next) => {
 
 //POST
 //forgot password
-router.post('/forgotPassword',async (req, res, next) => {
-    res.send("forgotPassword route")
-})
+// router.post('/forgotPassword',async (req, res, next) => {
+//     const { email } = req.body;
+//     try {
+//         const user = await User.findOne({ email })
+//         if (!user) return next(new ErrorResponse("Email could not be sent", 404))
+//         const resetToken = crypto.RandomBytes(20).toString("hax");
+//     } catch (error) {
+//         next(error)
+//     }
+
+// })
 
 module.exports = router
