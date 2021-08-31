@@ -2,7 +2,6 @@ const User = require('../models/UserSchema')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { registerValidation, loginValidation } = require("../utils/validation")
-const errorHandler = require('../middleware/errorHandler');
 const ErrorResponse = require('../utils/errorResponse');
 
 //Register
@@ -63,16 +62,20 @@ exports.login = async (req, res, next) => {
         const validate = await bcrypt.compare(req.body.password, user.password)
         if (!validate)
             return next(new ErrorResponse('invalid password!', 400))
-        //// const { password,...others } = user._doc;
         //// res.status(200).json(others)
         //jwt token
-        const token = jwt.sign({ _id: user._id }, process.env.SECRET)
+        const accessToken = jwt.sign({ _id: user._id, isAdmin: user.isAdmin },
+            process.env.SECRET,
+            { expiresIn: "1d" }
+        )
+        const { password,...info } = user._doc;
 
         res.status(201).json({
             success: true,
-            successMessage: "login success."
+            successMessage: "login success.",
+            info: { ...info },
+            accessToken:accessToken
         })
-        res.header('auth-token', token).send(token);
     } catch (err) {
         next(error)
     }
@@ -81,7 +84,3 @@ exports.login = async (req, res, next) => {
 exports.forgotPassword = async (req, res, next) => {
     res.send("forgotPassword route")
 }
-
-// // exports.resetPassword = async (req, res, next) => {
-// //     res.send("resetPassword route")
-// // }

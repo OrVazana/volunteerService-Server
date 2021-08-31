@@ -7,7 +7,9 @@ const connectDB = require("./DB/db")
 const errorHandler = require("./middleware/errorHandler");
 
 //import Routes
-const authRoute = require("./routes/auth")
+const authRoute = require("./routes/auth");
+const userRoute = require("./routes/users");
+const receiverRoute=require("./routes/receivers")
 const postsRoute = require("./routes/posts");
 
 //connect to DB
@@ -19,7 +21,9 @@ app.use(express.json())
 
 //middleware Routes
 app.use('/api/auth', authRoute)
-app.use('/posts', postsRoute)
+app.use('/api/user', userRoute)
+app.use('/api/receiver', userRoute)
+app.use('/api/posts', postsRoute)
 
 //Error Handler - last middleware
 app.use(errorHandler)

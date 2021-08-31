@@ -5,7 +5,7 @@ const postSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    author: {
+    authorName: {
         type: String,
         required:true
     },

@@ -6,11 +6,11 @@ const distributionSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    managerEmail: {
+    receiverEmail: {
         type: String,
         required: true
     },
-    description: {
+    distributionType: {
         type: String,
         required: true
     },
@@ -22,6 +22,7 @@ const distributionSchema = mongoose.Schema({
         type: AddressSchema,
         required: true
     }
-})
+},{timestamps:true}
+)
 
-module.exports = mongoose.model('posts', postSchema)
+module.exports = mongoose.model('distribution', distributionSchema)

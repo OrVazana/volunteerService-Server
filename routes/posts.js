@@ -1,34 +1,42 @@
 const express = require("express");
+const verify = require("../middleware/verifyToken");
 const router = express.Router()
 const Post = require('../models/PostSchema')
 
-//get all posts
-router.get('/', async (req, res) => {
-    try {
-        const posts = await Post.find();
-        res.json(posts)
-    } catch (err) {
-        res.json({ message: err })
-    }
-})
-
-//create - submit a post
-router.post('/', async (req, res) => {
-    console.log(req.body)
-    const post = new Post({
-        title: req.body.title,
-        description: req.body.description,
-    })
-    try {
-        const savedPost = await post.save();
-        res.json(savedPost);
-    } catch (err) {
-        res.json({ message: err })
+//POST
+//create a post
+router.post('/', verify, async (req, res, next) => {
+    if (req.user.isAdmin) {
+        console.log(req.body)
+        const post = new Post({
+            title: req.body.title,
+            description: req.body.description,
+        })
+        try {
+            const savedPost = await post.save();
+            res.json(savedPost);
+        } catch (err) {
+            res.json({ message: err })
+        }
+    } else {
+        return next(new ErrorResponse("You are not allowed to create posts!", 403))
     }
 });
 
+//GET
+//get all posts
+router.get('/', verify, async (req, res, next) => {
+    try {
+        const posts = await Post.find();
+        res.json(posts)
+    } catch (error) {
+        next(error)
+    }
+})
+
+//GET
 //get specific post
-router.get('/:postID', async (req, res) => {
+router.get('/:postID', verify, async (req, res) => {
     try {
         const post = await Post.findById(req.params.postID)
         res.json(post)
@@ -37,25 +45,36 @@ router.get('/:postID', async (req, res) => {
     }
 })
 
+//DELETE
 //delete specific post
-router.delete('/:postID', async (req, res) => {
-    try {
-        const removePost = await Post.remove({ _id: req.params.postID })
-        res.json(removePost)
-    } catch (err) {
-        res.json({ message: err })
+router.delete('/:postID', verify, async (req, res, next) => {
+    if (req.user.isAdmin) {
+        try {
+            const removePost = await Post.remove({ _id: req.params.postID })
+            res.json(removePost)
+        } catch (error) {
+            next(error)
+        }
+    }
+    else {
+        return next(new ErrorResponse("You are not allowed to delete posts!", 403))
     }
 })
 
+//PATCH
 //update a post
-router.patch('/:postID', async (req, res) => {
-    try {
-        const updatePost = await Post.updateOne(
-            { _id: req.params.postID },
-            { $set: { title: req.body.title } })
-        res.json(updatePost)
-    } catch (err) {
-        res.json({ message: err })
+router.patch('/:postID', verify, async (req, res, next) => {
+    if (req.user.isAdmin) {
+        try {
+            const updatePost = await Post.updateOne(
+                { _id: req.params.postID },
+                { $set: { title: req.body.title } })
+            res.json(updatePost)
+        } catch (error) {
+            next(error)
+        }
+    } else {
+        return next(new ErrorResponse("You are not allowed to update posts!", 403))
     }
 })
 

@@ -1,10 +1,14 @@
 const mongoose = require('mongoose')
-
+const AddressSchema = require('./AddressSchema')
 const userSchema = mongoose.Schema(
     {
-        name: {
+        firstName: {
             type: String,
             required: true,
+        },
+        lastName: {
+            type: String,
+            required:true
         },
         email: {
             type: String,
@@ -22,10 +26,14 @@ const userSchema = mongoose.Schema(
             type: String,
             required: false
         },
-        role: {
-            type: Number,
-            default: 0
+        isAdmin: {
+            type: Boolean,
+            default: false
         },
+        address: {
+            type: AddressSchema,
+            required: false
+        }
     },{timestamps:true}
 )
 
