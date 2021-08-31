@@ -27,7 +27,7 @@ router.post('/', verify, async (req, res, next) => {
 });
 
 //GET
-//get all Deliverys
+//get all Deliveries
 router.get('/', verify, async (req, res, err) => {
     if (req.user.isAdmin) {
         try {

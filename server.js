@@ -9,6 +9,7 @@ const errorHandler = require("./middleware/errorHandler");
 require("dotenv").config();
 const app = express();
 app
+
 //socket rafi start
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
@@ -44,7 +45,7 @@ const deliveryRoute = require("./routes/deliveries")
 app.use('/api/auth', authRoute)
 app.use('/api/user', userRoute)
 app.use('/api/posts', postsRoute)
-app.use('/api/receiver', receiverRoute)
+app.use('/api/receiver', receiverRoute) 
 
 //Error Handler - last middleware
 app.use(errorHandler)

@@ -4,15 +4,14 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { registerValidation, loginValidation } = require("../utils/validation")
 const ErrorResponse = require('../utils/errorResponse');
-const crypto = require('crypto');
-
-const { register, login, forgotPassword } = require('../controllers/auth')
+// const crypto = require('crypto');
 
 // @route - /api/auth
 
 //POST
 //register a new user
 router.post('/register', async (req, res, next) => {
+    console.log(req.body)
     if (!req.body.email || !req.body.password || !req.body.name)
         return next(new ErrorResponse('missing fields', 400))
     try {
@@ -80,7 +79,7 @@ router.post('/login',async (req, res, next) => {
             success: true,
             successMessage: "login success.",
             info: { ...info },
-            accessToken:accessToken
+            authToken:accessToken
         })
     } catch (err) {
         next(error)

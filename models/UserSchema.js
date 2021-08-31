@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const AddressSchema = require('./AddressSchema')
+
 const userSchema = mongoose.Schema(
     {
         firstName: {
@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema(
         },
         lastName: {
             type: String,
-            required:true
+            required: true
         },
         email: {
             type: String,
@@ -31,10 +31,11 @@ const userSchema = mongoose.Schema(
             default: false
         },
         address: {
-            type: AddressSchema,
-            required: false
+            city: String,
+            street: String,
+            houseNumber: String,
         }
-    },{timestamps:true}
+    }, { timestamps: true }
 )
 
 module.exports = mongoose.model('user', userSchema)
