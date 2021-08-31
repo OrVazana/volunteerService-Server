@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const AddressSchema = require('./AddressSchema')
 
-const distributionSchema = mongoose.Schema({
+const deliverySchema = mongoose.Schema({
     distributorEmail: {
         type: String,
         required: true
@@ -10,7 +10,7 @@ const distributionSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    distributionType: {
+    deliveryType: {
         type: String,
         required: true
     },
@@ -25,4 +25,4 @@ const distributionSchema = mongoose.Schema({
 },{timestamps:true}
 )
 
-module.exports = mongoose.model('distribution', distributionSchema)
+module.exports = mongoose.model('delivery', deliverySchema)
