@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router()
-const Distribution = require('../models/DistributionSchema')
+const Delivery = require('../models/DeliverySchema')
 const ErrorResponse = require('../utils/errorResponse');
 const verify = require('../middleware/verifyToken');
 
 //POST
-//create a Distribution
+//create a Delivery
 router.post('/', verify, async (req, res, next) => {
     if (req.user.isAdmin) {
         const { Name, email, phone, address } = req.body
-        const post = new Distribution({
+        const post = new Delivery({
             Name:Name,
             email: email,
             phone: phone,
@@ -22,30 +22,30 @@ router.post('/', verify, async (req, res, next) => {
             next(err)
         }
     } else {
-        return next(new ErrorResponse("You are not allowed to add Distribution!", 403))
+        return next(new ErrorResponse("You are not allowed to add Delivery!", 403))
     }
 });
 
 //GET
-//get all Distributions
+//get all Deliverys
 router.get('/', verify, async (req, res, err) => {
     if (req.user.isAdmin) {
         try {
-            const Distributions = await Receiver.find();
-            res.json(Distributions)
+            const Deliverys = await Receiver.find();
+            res.json(Deliverys)
         } catch (err) {
             next(err)
         }
     } else {
-        return next(new ErrorResponse("You are not allowed to see all Distributions!", 403))
+        return next(new ErrorResponse("You are not allowed to see all Deliverys!", 403))
     }
 })
 
 //GET
-//get specific Distribution
-router.get('/find/:DistributionID', async (req, res) => {
+//get specific Delivery
+router.get('/find/:DeliveryID', async (req, res) => {
     try {
-        const post = await Receiver.findOne(req.params.DistributionID)
+        const post = await Receiver.findOne(req.params.DeliveryID)
         res.json(receiver)
     } catch (err) {
         next(err)
@@ -53,8 +53,8 @@ router.get('/find/:DistributionID', async (req, res) => {
 })
 
 //DELETE
-//delete specific Distribution
-router.delete('/:DistributionID', verify, async (req, res, next) => {
+//delete specific Delivery
+router.delete('/:DeliveryID', verify, async (req, res, next) => {
     if (req.user.isAdmin) {
         try {
             const removePost = await Receiver.remove({ _id: req.params.postID })
@@ -63,7 +63,7 @@ router.delete('/:DistributionID', verify, async (req, res, next) => {
             next(err)
         }
     } else {
-        return next(new ErrorResponse("You are not allowed to delete Distributions!", 403))
+        return next(new ErrorResponse("You are not allowed to delete Deliverys!", 403))
     }
 })
 

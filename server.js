@@ -1,29 +1,40 @@
 //imports
 const express = require("express");
-const app = express();
 const cors = require('cors')
-require("dotenv").config();
 const connectDB = require("./DB/db")
+// const compression = require('compression');
 const errorHandler = require("./middleware/errorHandler");
+// const passport = require('passport');
 
-//import Routes
-const authRoute = require("./routes/auth");
-const userRoute = require("./routes/users");
-const receiverRoute=require("./routes/receivers")
-const postsRoute = require("./routes/posts");
+require("dotenv").config();
+const app = express();
+
+// Passport Config
+// require('./config/passport')(passport);
 
 //connect to DB
 connectDB()
 
 //middleware
+// app.use(compression());
 app.use(cors())
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
+
+
+
+//import Routes
+const authRoute = require("./routes/auth");
+const userRoute = require("./routes/users");
+const postsRoute = require("./routes/posts");
+const receiverRoute = require("./routes/receivers")
+const deliveryRoute = require("./routes/deliveries")
 
 //middleware Routes
 app.use('/api/auth', authRoute)
 app.use('/api/user', userRoute)
-app.use('/api/receiver', userRoute)
 app.use('/api/posts', postsRoute)
+app.use('/api/receiver', receiverRoute)
 
 //Error Handler - last middleware
 app.use(errorHandler)
@@ -34,5 +45,5 @@ app.listen(port, () => console.log(`Server is running on port: ${port}`))
 
 process.on("unhandledRejection", (err, promise) => {
     console.log(`logged Error: ${err}`);
-    app.close(()=>process.exit(1))
+    app.close(() => process.exit(1))
 })
