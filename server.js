@@ -13,19 +13,20 @@ app
 //socket rafi start
 let users = [];
 const addUser = (username,socketId) =>{
-    if(!users.includes(username)){
-        users.push(username);
-    }
+  if(!users.includes(username)){
+    users.push(username);
+  }
 };
 
 io.on('connection', socket => {
-    socket.on('message', ({ name, message }) => {
-    io.emit('message', { name, message })
-    })
-    socket.on('AddUser', (name) => {
+  socket.on('message', ({ name, message }) => {
+  io.emit('message', { name, message })
+  })
+  socket.on('AddUser', (name) => {
     addUser(name, socket.id);
     console.log(users);
-    })
+  })
+  
 })
 //socket rafi end
 
