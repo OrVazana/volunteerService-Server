@@ -3,10 +3,10 @@ const express = require("express");
 const cors = require('cors')
 const connectDB = require("./DB/db")
 const errorHandler = require("./middleware/errorHandler");
+const io = require('socket.io')(http)
 
 require("dotenv").config();
 const app = express();
-app
 
 //socket rafi start
 let users = [];
