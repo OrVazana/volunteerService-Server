@@ -9,12 +9,22 @@ const app = express();
 app
 
 //socket rafi start
-const http = require('http').createServer(app)
-const io = require('socket.io')(http)
+let users = [];
+const addUser = (username,socketId) =>{
+  if(!users.includes(username)){
+    users.push(username);
+  }
+};
+
 io.on('connection', socket => {
-    socket.on('message', ({ name, message }) => {
-    io.emit('message', { name, message })
-    })
+  socket.on('message', ({ name, message }) => {
+  io.emit('message', { name, message })
+  })
+  socket.on('AddUser', (name) => {
+    addUser(name, socket.id);
+    console.log(users);
+  })
+  
 })
 //socket rafi end
 
