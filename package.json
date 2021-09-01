@@ -13,6 +13,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.1.0",
     "mongoose": "^6.0.0",
+    "node-kmeans": "^1.1.9",
     "socket.io": "^4.2.0"
   },
   "devDependencies": {},

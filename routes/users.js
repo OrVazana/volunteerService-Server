@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 //PUT
 //update a user
 router.put("/:id", verify, async (req, res, next) => {
-    if (req.user._id === req.params.id || req.user.isAdmin) {
+    if (req.user._id === req.params.id || req.user.userType === "admin") {
         if (req.body.password) {
             const salt = await bcrypt.genSalt(10);
             req.body.password = await bcrypt.hash(req.body.password, salt);
@@ -32,7 +32,7 @@ router.put("/:id", verify, async (req, res, next) => {
 //DELETE
 //delete a user
 router.delete("/:id", verify, async (req, res, next) => {
-    if (req.user._id === req.params.id || req.user.isAdmin) {
+    if (req.user._id === req.params.id || req.user.userType === "admin") {
         try {
             await User.findByIdAndDelete(req.params.id);
             res.status(200).json("user has been deleted");
@@ -79,7 +79,7 @@ router.get("/email/:email", async (req, res,next) => {
 //get all users
 router.get("/", verify, async (req, res, next) => {
     const query=req.query.new
-    if (req.user.isAdmin) {
+    if (req.user.userType === "admin") {
         try {
             const users=query ? await User.find().limit(10) : await User.find()
             res.status(200).json(users);

@@ -7,7 +7,7 @@ const verify = require('../middleware/verifyToken');
 //POST
 //create a Delivery
 router.post('/', verify, async (req, res, next) => {
-    if (req.user.isAdmin) {
+    if (req.user.userType === "admin") {
         const { Name, email, phone, address } = req.body
         const post = new Delivery({
             Name:Name,
@@ -29,7 +29,7 @@ router.post('/', verify, async (req, res, next) => {
 //GET
 //get all Deliveries
 router.get('/', verify, async (req, res, err) => {
-    if (req.user.isAdmin) {
+    if (req.user.userType === "admin") {
         try {
             const Deliverys = await Receiver.find();
             res.json(Deliverys)
@@ -55,7 +55,7 @@ router.get('/find/:DeliveryID', async (req, res) => {
 //DELETE
 //delete specific Delivery
 router.delete('/:DeliveryID', verify, async (req, res, next) => {
-    if (req.user.isAdmin) {
+    if (req.user.userType === "admin") {
         try {
             const removePost = await Receiver.remove({ _id: req.params.postID })
             res.json(removePost)

@@ -6,7 +6,7 @@ const Post = require('../models/PostSchema')
 //POST
 //create a post
 router.post('/', verify, async (req, res, next) => {
-    if (req.user.role === 'admin') {
+    if (req.user.userType === 'admin') {
         console.log(req.body)
         const post = new Post({
             title: req.body.title,
@@ -48,7 +48,7 @@ router.get('/:postID', verify, async (req, res) => {
 //DELETE
 //delete specific post
 router.delete('/:postID', verify, async (req, res, next) => {
-    if (req.user.isAdmin) {
+    if (req.user.userType === "admin") {
         try {
             const removePost = await Post.remove({ _id: req.params.postID })
             res.json(removePost)
@@ -64,7 +64,7 @@ router.delete('/:postID', verify, async (req, res, next) => {
 //PATCH
 //update a post
 router.patch('/:postID', verify, async (req, res, next) => {
-    if (req.user.isAdmin) {
+    if (req.user.userType === "admin") {
         try {
             const updatePost = await Post.updateOne(
                 { _id: req.params.postID },
