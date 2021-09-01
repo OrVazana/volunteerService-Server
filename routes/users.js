@@ -54,9 +54,20 @@ router.get("/exists/email/:email",verify, async (req, res,next) => {
 
 //GET
 //get user specific by id
-router.get("/find/id/:id",verify, async (req, res,next) => {
+router.get("/id/:id",verify, async (req, res,next) => {
     try {
         const user = await User.findById(req.params.id);
+        const { password, ...others } = user._doc;
+        res.status(200).json(others);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+//GET
+//get user specific by id
+router.get("/email/:email", async (req, res,next) => {
+    try {
+        const user = await User.findOne({ email: req.params.email });
         const { password, ...others } = user._doc;
         res.status(200).json(others);
     } catch (err) {

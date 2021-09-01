@@ -1,4 +1,4 @@
-const { number } = require('@hapi/joi');
+const { number, string } = require('@hapi/joi');
 const Joi = require('@hapi/joi')
 
 //registerValidation
@@ -16,9 +16,11 @@ const registerValidation = data => {
             .required(),
         password: Joi.string()
             .min(6)
-            .required()        
+            .required(),
+        phone: Joi.string().min(10).max(10).required(),
+        // userType: string(),
     });
-    return schema.validate(data)
+    return schema.validate(data,{ allowUnknown: true })
 }
 //loginValidation
 const loginValidation = data => {

@@ -34,6 +34,12 @@ router.post('/register', async (req, res, next) => {
             name: req.body.name,
             email: req.body.email,
             password: hashPass,
+            phone: req.body.phone,
+            address: {
+                city: req.body.city,
+                street:req.body.street,
+                houseNumber: req.body.houseNumber,
+            }
         })
         const user = await newUser.save();
         // const { password, ...others } = user._doc;
@@ -88,16 +94,16 @@ router.post('/login',async (req, res, next) => {
 
 //POST
 //forgot password
-// router.post('/forgotPassword',async (req, res, next) => {
-//     const { email } = req.body;
-//     try {
-//         const user = await User.findOne({ email })
-//         if (!user) return next(new ErrorResponse("Email could not be sent", 404))
-//         const resetToken = crypto.RandomBytes(20).toString("hax");
-//     } catch (error) {
-//         next(error)
-//     }
+router.post('/forgotPassword',async (req, res, next) => {
+    const { email } = req.body;
+    try {
+        const user = await User.findOne({ email })
+        if (!user) return next(new ErrorResponse("Email could not be sent", 404))
+        const resetToken = crypto.RandomBytes(20).toString("hax");
+    } catch (error) {
+        next(error)
+    }
 
-// })
+})
 
 module.exports = router
