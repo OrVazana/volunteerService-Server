@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
 
 const ChatSchema = mongoose.Schema({
-    title: {
+    message: {
         type: String,
         required: true
     },
-    authorName: {
+    sender: {
         type: String,
         required:true
     },
-    description:{
+    receiver:{
         type: String,
         required: true
     },
