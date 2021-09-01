@@ -26,9 +26,9 @@ const userSchema = mongoose.Schema(
             type: String,
             required: false
         },
-        isAdmin: {
-            type: Boolean,
-            default: false
+        userType: {
+            type: String,
+            default: "user"
         },
         address: {
             city: String,
