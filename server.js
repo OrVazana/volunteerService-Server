@@ -2,9 +2,7 @@
 const express = require("express");
 const cors = require('cors')
 const connectDB = require("./DB/db")
-// const compression = require('compression');
 const errorHandler = require("./middleware/errorHandler");
-// const passport = require('passport');
 
 require("dotenv").config();
 const app = express();
@@ -19,9 +17,6 @@ io.on('connection', socket => {
     })
 })
 //socket rafi end
-
-// Passport Config
-// require('./config/passport')(passport);
 
 //connect to DB
 connectDB()

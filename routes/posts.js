@@ -6,7 +6,7 @@ const Post = require('../models/PostSchema')
 //POST
 //create a post
 router.post('/', verify, async (req, res, next) => {
-    if (req.user.isAdmin) {
+    if (req.user.role === 'admin') {
         console.log(req.body)
         const post = new Post({
             title: req.body.title,

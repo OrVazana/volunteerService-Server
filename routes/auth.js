@@ -36,14 +36,14 @@ router.post('/register', async (req, res, next) => {
             password: hashPass,
             phone: req.body.phone,
             address: {
-                city: req.body.city,
-                street:req.body.street,
-                houseNumber: req.body.houseNumber,
+                city: req.body.address.city,
+                street:req.body.address.street,
+                houseNumber: req.body.address.houseNumber,
             }
         })
         const user = await newUser.save();
         // const { password, ...others } = user._doc;
-        console.log(user);
+        console.log("registered: ",user);
         res.status(201).json({
             success: true,
             successMessage: "registration success. please Log in"
@@ -75,7 +75,7 @@ router.post('/login',async (req, res, next) => {
             return next(new ErrorResponse('invalid password!', 400))
         //// res.status(200).json(others)
         //jwt token
-        const accessToken = jwt.sign({ _id: user._id, isAdmin: user.isAdmin },
+        const accessToken = jwt.sign({ _id: user._id, role: user.role },
             process.env.SECRET,
             { expiresIn: "1d" }
         )
