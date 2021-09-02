@@ -80,12 +80,8 @@ router.post('/login',async (req, res, next) => {
             { expiresIn: "1d" }
         )
         const { password,...info } = user._doc;
-
         res.status(201).json({
-            success: true,
-            successMessage: "login success.",
-            info: { ...info },
-            authToken:accessToken
+            ...info,accessToken:accessToken
         })
     } catch (err) {
         next(error)
